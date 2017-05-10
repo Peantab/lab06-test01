@@ -3,14 +3,12 @@ import argparse
 
 
 def calculate(year, month, day):
-    """
-    Calculates day of the week (0-Monday, 1-Tuesday)
-    :param year:
-    :param month:
-    :param day:
-    :return:
-    """
-    return year + month + day
+    import calendar
+    try:
+        result_day = calendar.weekday(year=year, month=month, day=day)
+    except ValueError:
+        return None
+    return result_day
 
 
 def main(args):
@@ -27,8 +25,11 @@ def main(args):
                         type=int,
                         required=True,
                         help='Day')
+
     parsed_args = parser.parse_args(args)
     weekday = calculate(parsed_args.year, parsed_args.month, parsed_args.day)
+    if weekday is None:
+        return 1
     print("Weekday {}".format(weekday))
     return 0
 
